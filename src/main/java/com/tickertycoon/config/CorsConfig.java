@@ -1,22 +1,23 @@
 package com.tickertycoon.config;
 
-import org.springframework.context.annotation.Bean;
+// cspell:ignore Configurer
+
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.cors.*;
-import org.springframework.web.filter.CorsFilter;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class CorsConfig {
+public class CorsConfig implements WebMvcConfigurer {
 
-    @Bean
-    public CorsFilter corsFilter() {
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
-        config.addAllowedOriginPattern("http://localhost:*");
-        config.addAllowedHeader("*");
-        config.addAllowedMethod("*");
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config);
-        return new CorsFilter(source);
+    @Value("${cors.allowed-origins:http://localhost:5173,http://localhost:3000}")
+    private String[] allowedOrigins;
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins(allowedOrigins)
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                .allowedHeaders("*");
     }
 }

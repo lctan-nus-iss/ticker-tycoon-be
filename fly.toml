@@ -1,23 +1,24 @@
-# fly.toml app configuration file generated for ticker-tycoon-be on 2026-09-21T03:40:24Z
+# fly.toml app configuration file generated for ticker-tycoon-be-fun on 2026-09-21T16:13:09+08:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'ticker-tycoon-be'
+app = 'ticker-tycoon-be-fun'
 primary_region = 'sin'
 
 [build]
-
 [http_service]
   internal_port = 8080
   force_https = true
-  auto_stop_machines = true
+  auto_stop_machines = false
   auto_start_machines = false
   min_machines_running = 0
   processes = ['app']
 
 [[vm]]
   memory = '1gb'
-  cpu_kind = 'shared'
   cpus = 1
   memory_mb = 1024
+
+[env]
+  CORS_ALLOWED_ORIGINS = "https://ticker-tycoon-fe-fun.fly.dev,http://localhost:5173"

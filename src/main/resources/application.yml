@@ -45,13 +45,14 @@ spring:
   #     host: ${REDIS_HOST:localhost}
   #     port: ${REDIS_PORT:6379}
   web:
-    cors:
-      allowed-origins: "http://localhost:5173,http://localhost:3000"
-      allowed-methods: "GET,POST,PUT,DELETE,OPTIONS"
-      allowed-headers: "*"
+#    cors:
+#      allowed-origins: "http://localhost:5173,http://localhost:3000"
+#      allowed-methods: "GET,POST,PUT,DELETE,OPTIONS"
+#      allowed-headers: "*"
 
 server:
   port: 8080
+  address: 0.0.0.0
 
 ticker-tycoon:
   event-pool:
