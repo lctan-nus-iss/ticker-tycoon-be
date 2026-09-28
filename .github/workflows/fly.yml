@@ -1,0 +1,45 @@
+# This workflow is to deploy the ticker-tycoon-be to fly.io
+name: Deploy Backend to Fly.io
+on:
+  push:
+    branches:
+      - main
+
+  # Allows manual deployment from GitHub Actions
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ticker-tycoon-be-fun-deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Deploy ticker-tycoon-be-fun
+    runs-on: ubuntu-latest
+
+    steps:
+      # ---------------------------------------------------------
+      # 1. Checkout source code
+      # ---------------------------------------------------------
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ---------------------------------------------------------
+      # 2. Install Fly.io CLI
+      # ---------------------------------------------------------
+      - name: Setup flyctl
+        uses: superfly/flyctl-actions/setup-flyctl@master
+
+      # ---------------------------------------------------------
+      # 3. Deploy application
+      # ---------------------------------------------------------
+      - name: Deploy to Fly.io
+        run: |
+          flyctl deploy \
+            --app ticker-tycoon-be-fun \
+            --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
